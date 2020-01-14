@@ -10,6 +10,7 @@
 using namespace std;
 template <class Position>
 class ISearchable {
+public:
     virtual State<Position> getInitialState() = 0;
 
     virtual bool isGoalState(State<Position> state) = 0;

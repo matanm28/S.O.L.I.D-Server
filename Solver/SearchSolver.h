@@ -6,13 +6,18 @@
 #define SOLID_SERVER_REDO_SEARCHSOLVER_H
 
 #include "ISolver.h"
+#include "../Searchers/ISearcher.h"
 
-template <class Problem, class Solution, class Position>
+template <class Problem, class Solution, class Var>
 class SearchSolver : public ISolver<Problem,Solution>{
 private:
-    ISearcher<Position>* searcher;
+    ISearcher<Solution, Var>* searcher;
 public:
-    SearchSolver(Isearcher<Position>* searcher){searcher(searcher)};
+    //Algorithm Searcher throw the constructor
+    SearchSolver(ISearcher<Solution, Var>* searcher) {
+        this->searcher = searcher;
+    }
+    //the searchable as parameter
     Solution solve(Problem problem) override {
         return this->searcher.search(problem);
     }

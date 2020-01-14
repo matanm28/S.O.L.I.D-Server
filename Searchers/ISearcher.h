@@ -7,10 +7,9 @@
 
 #include "../Searchables/ISearchable.h"
 
-template<class Solution, class Position>
+template<class Solution, class Var>
 class ISearcher {
-    virtual Solution search(ISearchable<Position> iSearchable) = 0;
-
+    virtual Solution search(ISearchable<Var>* iSearchable) = 0;
 };
 
 

@@ -11,31 +11,73 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
-template <class Solution, class Position>
-class Searcher : public ISearcher<Solution,Position> {
+template <class Solution, class Var>
+class Searcher : public ISearcher<Solution,Var> {
 private:
-    priority_queue<State<Position>> openList;
+    priority_queue<State<Var>> openList;
     int evaluatedNum;
 protected:
-    void addToOpenList(State<Position> state);
+    void addToOpenList(State<Var> state) {
+        this->openList.push(state);
+    }
 
-    int getNumberOfNodesEvaluated();
+    int getNumberOfNodesEvaluated() {
+        return this->evaluatedNum;
+    }
 
-    State<Position> popOpenList();
+    State<Var> popOpenList() {
+        this->evaluatedNum++;
+        State<Var> popState = this->openList.top();
+        this->openList.pop();
+        return popState;
+    }
 
-    int openListSize();
+    int openListSize() {
+        return this->openList.size();
+    }
 
-    bool isInOpenList(State<Position> state);
+    bool isInOpenList(State<Var> state) {
+        return (std::find(openList.cbegin(), openList.cend(), state) != this->openList.cend());
+    }
 
-    void updateOpenList(State<Position> state);
 
-    State<Position> getState(State<Position> state);
+    State<Var> getState(State<Var> state) {
+        auto iter = std::find(openList.cbegin(), openList.cend(), state);
+        return *iter;
+    }
+
+    void updateOpenList(State<Var> state) {
+        priority_queue<State<Var>> temp;
+        while (!this->openList.empty()) {
+            State<Var> tempState = this->openList.top();
+            this->openList.pop();
+            if (state == tempState) {
+                temp.push(state);
+            } else {
+                temp.push(tempState);
+            }
+        }
+        this->openList = temp;
+    }
+//    void addToOpenList(State<Var> state);
+//
+//    int getNumberOfNodesEvaluated();
+//
+//    State<Var> popOpenList();
+//
+//    int openListSize();
+//
+//    bool isInOpenList(State<Var> state);
+//
+//    void updateOpenList(State<Var> state);
+//
+//    State<Var> getState(State<Var> state);
 
 public:
-
-    Searcher();
-
-    virtual Solution search(ISearchable<Position> iSearchable)= 0;
+    Searcher() {
+        this->evaluatedNum = 0;
+    }
+    virtual Solution search(ISearchable<Var>* iSearchable) = 0;
 };
 
 
