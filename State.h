@@ -5,41 +5,94 @@
 #ifndef SOLID_SERVER_REDO_STATE_H
 #define SOLID_SERVER_REDO_STATE_H
 
-template<class Position>
+#include <iostream>
+#include "Position.h"
 
+template<class Var>
 class State {
 private:
-    Position state;
-    double cost;
-    State<Position> *cameFrom;
+    Var state;
+    double cost, trialCost;
+    State<Var> *cameFrom;
 public:
-    explicit State(Position state);
+    State(Var state, State<Var> *cameFrom) {
+        this->state = state;
+        this->cameFrom = cameFrom;
 
-    State(Position state, State<Position> *cameFrom);
+    }
 
-    State(Position state, double cost, State<Position> *cameFrom);
+    State(Var state, double cost) {
+        this->state = state;
+        this->cost = cost;
+    }
 
-    void setCost(double cost);
+    State(Var state, double cost, double trialCost) {
+        this->state = state;
+        this->cost = cost;
+        this->trialCost = trialCost;
+    }
 
-    void setCameFrom(State<Position> *cameFrom);
+    State(Var state, double cost, double trialCost, State<Var> *cameFrom) {
+        this->state = state;
+        this->cameFrom = cameFrom;
+        this->cost = cost;
+        this->trialCost = trialCost;
+    }
 
-    double getCost();
+    void setTrialCost(double trialCost) {
+        this->trialCost = trialCost;
 
-    State<Position> *getCameFrom();
+    }
 
-    Position getState();
+    void setCost(double cost) {
+        this->cost = cost;
 
-    bool operator==(const State &rhs) const;
+    }
 
-    bool operator!=(const State &rhs) const;
+    void setCameFrom(State<Var> *cameFrom) {
+        this->cameFrom = cameFrom;
+    }
 
-    bool operator<(const State &rhs) const;
+    double getCost() {
+        return this->cost;
+    }
 
-    bool operator>(const State &rhs) const;
+    double getTrialCost() const {
+        return trialCost;
+    }
 
-    bool operator<=(const State &rhs) const;
+    State<Var> *getCameFrom() {
+        return this->cameFrom;
+    }
 
-    bool operator>=(const State &rhs) const;
+    Var getState() {
+        return this->state;
+    }
+
+    bool operator==(const State &rhs) const {
+        return state == rhs.state;
+    }
+
+    bool operator!=(const State &rhs) const {
+        return !(rhs == *this);
+    }
+
+    bool operator<(const State &rhs) const {
+        return this->trialCost < rhs.getTrialCost();
+    }
+
+
+    bool operator>(const State &rhs) const {
+        return this->trialCost > rhs.getTrialCost();
+    }
+
+    bool operator<=(const State &rhs) const {
+        return !(rhs > *this);
+    }
+
+    bool operator>=(const State &rhs) const {
+        return !(rhs < *this);
+    }
 };
 
 

@@ -23,11 +23,11 @@ public:
     //Matrix(vector<vector<double>> matrix, State<Pair> initialState, State<Pair> goalState);
     Matrix();
 
-    State<Position> getInitialState() override;
+    State<Position>* getInitialState() override;
 
-    bool isGoalState(State<Position> state) override;
+    bool isGoalState(State<Position>* state) override;
 
-    vector<State<Position>> getAllPossibleStates(State<Position> state) override;
+    vector<State<Position>*> getAllPossibleStates(State<Position>* state) override;
 
 };
 

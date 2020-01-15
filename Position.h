@@ -10,6 +10,8 @@ class Position {
 public:
     Position(int row, int col);
 
+    Position();
+
     bool operator==(const Position &pos) const;
 
     bool operator!=(const Position &pos) const;

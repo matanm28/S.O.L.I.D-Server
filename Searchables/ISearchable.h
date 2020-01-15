@@ -6,16 +6,17 @@
 #define SOLID_SERVER_REDO_ISEARCHABLE_H
 
 #include "../State.h"
+#include "../Position.h"
 #include <vector>
 using namespace std;
 template <class Position>
 class ISearchable {
 public:
-    virtual State<Position> getInitialState() = 0;
+    virtual State<Position>* getInitialState() = 0;
 
-    virtual bool isGoalState(State<Position> state) = 0;
+    virtual bool isGoalState(State<Position>* state) = 0;
 
-    virtual vector<State<Position>> getAllPossibleStates(State<Position> state) = 0;
+    virtual vector<State<Position>*> getAllPossibleStates(State<Position>* state) = 0;
 };
 
 

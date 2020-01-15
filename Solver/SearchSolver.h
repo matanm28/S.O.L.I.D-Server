@@ -11,15 +11,15 @@
 template <class Problem, class Solution, class Var>
 class SearchSolver : public ISolver<Problem,Solution>{
 private:
-    ISearcher<Solution, Var>* searcher;
 public:
+    ISearcher<Solution, Var>* searcher;
     //Algorithm Searcher throw the constructor
     SearchSolver(ISearcher<Solution, Var>* searcher) {
         this->searcher = searcher;
     }
     //the searchable as parameter
     Solution solve(Problem problem) override {
-        return this->searcher.search(problem);
+        return this->searcher->search(problem);
     }
 };
 

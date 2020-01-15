@@ -9,6 +9,7 @@
 
 template<class Solution, class Var>
 class ISearcher {
+public:
     virtual Solution search(ISearchable<Var>* iSearchable) = 0;
 };
 

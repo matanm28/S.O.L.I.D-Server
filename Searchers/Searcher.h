@@ -13,11 +13,18 @@
 using namespace std;
 template <class Solution, class Var>
 class Searcher : public ISearcher<Solution,Var> {
+class MyComperator {
+public:
+    bool operator()(State<Var>* left, State<Var>* right) {
+        return (*left > *right);
+    }
+};
+
 private:
-    priority_queue<State<Var>> openList;
+    priority_queue<State<Var>*, vector<State<Var>*>, MyComperator> openList;
     int evaluatedNum;
 protected:
-    void addToOpenList(State<Var> state) {
+    void addToOpenList(State<Var>* state) {
         this->openList.push(state);
     }
 
@@ -25,9 +32,9 @@ protected:
         return this->evaluatedNum;
     }
 
-    State<Var> popOpenList() {
+    State<Var>* popOpenList() {
         this->evaluatedNum++;
-        State<Var> popState = this->openList.top();
+        State<Var>* popState = this->openList.top();
         this->openList.pop();
         return popState;
     }
@@ -36,22 +43,24 @@ protected:
         return this->openList.size();
     }
 
-    bool isInOpenList(State<Var> state) {
-        return (std::find(openList.cbegin(), openList.cend(), state) != this->openList.cend());
+    bool isInOpenList(State<Var>* state) {
+        priority_queue<State<Var>*, vector<State<Var>*>, MyComperator> temp = this->openList;
+        while (!temp.empty()) {
+            State<Var>* tempState = temp.top();
+            temp.pop();
+            if (*state == *tempState) {
+                return true;
+            }
+        }
+        return false;
     }
 
-
-    State<Var> getState(State<Var> state) {
-        auto iter = std::find(openList.cbegin(), openList.cend(), state);
-        return *iter;
-    }
-
-    void updateOpenList(State<Var> state) {
-        priority_queue<State<Var>> temp;
+    void updateOpenList(State<Var>* state) {
+        priority_queue<State<Var>*, vector<State<Var>*>, MyComperator> temp;
         while (!this->openList.empty()) {
-            State<Var> tempState = this->openList.top();
+            State<Var>* tempState = this->openList.top();
             this->openList.pop();
-            if (state == tempState) {
+            if (*state == *tempState) {
                 temp.push(state);
             } else {
                 temp.push(tempState);
@@ -59,19 +68,6 @@ protected:
         }
         this->openList = temp;
     }
-//    void addToOpenList(State<Var> state);
-//
-//    int getNumberOfNodesEvaluated();
-//
-//    State<Var> popOpenList();
-//
-//    int openListSize();
-//
-//    bool isInOpenList(State<Var> state);
-//
-//    void updateOpenList(State<Var> state);
-//
-//    State<Var> getState(State<Var> state);
 
 public:
     Searcher() {

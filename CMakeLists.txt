@@ -3,4 +3,4 @@ project(SOLID_Server_REDO)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(SOLID_Server_REDO main.cpp Solver/ISolver.h Solver/SearchSolver.cpp Solver/SearchSolver.h Searchers/ISearcher.h Searchers/Searcher.cpp Searchers/Searcher.h State.cpp State.h Searchables/ISearchable.h Position.cpp Position.h Searchables/Matrix.cpp Searchables/Matrix.h Searchers/BestFS.cpp Searchers/BestFS.h)
+add_executable(SOLID_Server_REDO main.cpp Solver/ISolver.h Solver/SearchSolver.h Searchers/ISearcher.h Searchers/Searcher.h State.h Searchables/ISearchable.h Position.cpp Position.h Searchables/Matrix.cpp Searchables/Matrix.h Searchers/BestFS.h Searchers/DFS.h Searchers/BFS.h)
