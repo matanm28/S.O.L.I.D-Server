@@ -6,14 +6,16 @@
 #define SOLID_SERVER_REDO_STATE_H
 
 #include <iostream>
+#include <string>
 #include "Position.h"
-
+using namespace std;
 template<class Var>
 class State {
 private:
     Var state;
     double cost, trialCost;
     State<Var> *cameFrom;
+    string direction;
 public:
     State(Var state, State<Var> *cameFrom) {
         this->state = state;
@@ -37,6 +39,14 @@ public:
         this->cameFrom = cameFrom;
         this->cost = cost;
         this->trialCost = trialCost;
+    }
+
+    State(Var state, double cost, double trialCost, State<Var> *cameFrom, string direction) {
+        this->state = state;
+        this->cameFrom = cameFrom;
+        this->cost = cost;
+        this->trialCost = trialCost;
+        this->direction = direction + "(" + to_string(this->trialCost) + ")";
     }
 
     void setTrialCost(double trialCost) {

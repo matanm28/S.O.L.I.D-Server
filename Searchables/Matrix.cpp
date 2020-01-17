@@ -33,20 +33,20 @@ vector<State<Position>*> Matrix::getAllPossibleStates(State<Position>* state) {
     vector<State<Position>*> adj;
     //up
     if (this->isInBoundaries(i - 1, j)) {
-        State<Position>* s = new State<Position>(Position(i - 1,j), this->matrix[i - 1][j],this->matrix[i - 1][j] + state->getTrialCost(), state);
+        State<Position>* s = new State<Position>(Position(i - 1,j), this->matrix[i - 1][j],this->matrix[i - 1][j] + state->getTrialCost(), state, "Up");
         adj.push_back(s);
     }
     //down
     if (this->isInBoundaries(i + 1, j)) {
-        adj.push_back(new State<Position>(Position(i + 1, j), this->matrix[i + 1][j],this->matrix[i + 1][j] + state->getTrialCost(), state));
+        adj.push_back(new State<Position>(Position(i + 1, j), this->matrix[i + 1][j],this->matrix[i + 1][j] + state->getTrialCost(), state, "Down"));
     }
     //left
     if (this->isInBoundaries(i, j - 1)) {
-        adj.push_back(new State<Position>(Position(i, j - 1), this->matrix[i][j - 1],this->matrix[i][j - 1] + state->getTrialCost(), state));
+        adj.push_back(new State<Position>(Position(i, j - 1), this->matrix[i][j - 1],this->matrix[i][j - 1] + state->getTrialCost(), state, "Left"));
     }
     //right
     if (this->isInBoundaries(i, j + 1)) {
-        adj.push_back(new State<Position>(Position(i, j + 1), this->matrix[i][j + 1],this->matrix[i][j + 1] + state->getTrialCost(), state));
+        adj.push_back(new State<Position>(Position(i, j + 1), this->matrix[i][j + 1],this->matrix[i][j + 1] + state->getTrialCost(), state, "Right"));
     }
     return adj;
 }
