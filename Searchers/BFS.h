@@ -32,13 +32,17 @@ class BFS : public Searcher<Solution, Var> {
                 marked.push_back(currState);
                 return backTrace(marked);
             }
+            //if currState is marked - continue to next State in queue
             if(isMark(marked, currState)) {
                 continue;
             }
+            //if currState is unmarked - mark currState and for all unmarked adjacent push to queue
             marked.push_back(currState);
             adj = searchable->getAllPossibleStates(currState);
             for (State<Var>* a: adj) {
-                queue.push(a);
+                if(!isMark(marked, a)) {
+                    queue.push(a);
+                }
             }
         }
         cerr<<"there is no path"<<endl;

@@ -35,13 +35,17 @@ public:
                 marked.push_back(currState);
                 return backTrace(marked);
             }
+            //if currState is marked - continue to next State in stack
             if(isMark(marked, currState)) {
                 continue;
             }
+            //if currState is unmarked - mark currState and for all unmarked adjacent push to stack
             marked.push_back(currState);
             adj = searchable->getAllPossibleStates(currState);
             for (State<Var>* a: adj) {
-                stack.push(a);
+                if(!isMark(marked, a)) {
+                    stack.push(a);
+                }
             }
         }
         cerr<<"there is no path"<<endl;
