@@ -53,6 +53,7 @@ public:
                 }
             }
         }
+        throw "no path exists";
     }
 
     bool isInClosed(vector<State<Var>*> closed, State<Var>* state) {
@@ -64,7 +65,6 @@ public:
         return false;
     }
 
-    
     Solution backTrace(vector<State<Var>*> closed) {
         vector<State<Var>*> trace;
         State<Var>* tempState = closed[closed.size()-1];

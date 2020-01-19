@@ -5,7 +5,7 @@
 #ifndef SOLID_SERVER_REDO_MATRIX_H
 #define SOLID_SERVER_REDO_MATRIX_H
 
-
+#define INFINITY -1
 #include "ISearchable.h"
 #include "../Position.h"
 #include <vector>
@@ -20,10 +20,15 @@ private:
     bool isInBoundaries(int row, int col);
 
 public:
-    //Matrix(vector<vector<double>> matrix, State<Pair> initialState, State<Pair> goalState);
     Matrix();
 
+    Matrix(vector<vector<double>> matrix,  State<Position> *init,  State<Position> *goal);
+
+        double calcHeuristic(State<Position>* current) override;
+
     State<Position>* getInitialState() override;
+
+    State<Position>* getGoalState() override;
 
     bool isGoalState(State<Position>* state) override;
 

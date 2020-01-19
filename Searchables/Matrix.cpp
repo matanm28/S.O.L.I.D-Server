@@ -17,12 +17,32 @@ Matrix::Matrix() {
     this->goal = new State<Position>(Position(2,3),1);
 }
 
+Matrix::Matrix(vector<vector<double>> matrix,  State<Position> *init,  State<Position> *goal) {
+    this->matrix = matrix;
+    this->init = init;
+    this->goal = goal;
+}
+
 State<Position>* Matrix::getInitialState() {
     return this->init;
 }
 
+State<Position>* Matrix::getGoalState() {
+    return this->goal;
+}
+
 bool Matrix::isGoalState(State<Position>* state) {
     return (*state == *this->goal);
+}
+
+double Matrix::calcHeuristic(State<Position>* current) {
+    int iCurrent = current->getState().getRow();
+    int jCurrent = current->getState().getCol();
+    int iGoal = this->goal->getState().getRow();
+    int jGoal = this->goal->getState().getCol();
+    // heuristic function
+    double f = abs(iCurrent - iGoal) + abs(jCurrent - jGoal);
+    return f;
 }
 
 vector<State<Position>*> Matrix::getAllPossibleStates(State<Position>* state) {
@@ -52,6 +72,10 @@ vector<State<Position>*> Matrix::getAllPossibleStates(State<Position>* state) {
 }
 
 bool Matrix::isInBoundaries(int row, int col) {
-    return (0 <= row && row <= this->matrix.size() - 1) && (0 <= col && col <= this->matrix[0].size() - 1);
-
+    if((0 <= row && row <= this->matrix.size() - 1) && (0 <= col && col <= this->matrix[0].size() - 1)) {
+        if(this->matrix[row][col] != INFINITY) {
+            return true;
+        }
+    }
+    return false;
 }

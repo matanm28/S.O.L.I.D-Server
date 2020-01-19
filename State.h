@@ -13,7 +13,7 @@ template<class Var>
 class State {
 private:
     Var state;
-    double cost, trialCost;
+    double cost, trialCost, heuristicCost;
     State<Var> *cameFrom;
     string direction;
 public:
@@ -54,6 +54,10 @@ public:
 
     }
 
+    void setHeuristicCost(double heuristicCost) {
+        this->heuristicCost = heuristicCost;
+    }
+
     void setCost(double cost) {
         this->cost = cost;
 
@@ -77,6 +81,14 @@ public:
 
     Var getState() {
         return this->state;
+    }
+
+    double getHeuristicCost() const {
+        return heuristicCost;
+    }
+
+    const string &getDirection() const {
+        return direction;
     }
 
     bool operator==(const State &rhs) const {

@@ -45,7 +45,7 @@ class BFS : public Searcher<Solution, Var> {
                 }
             }
         }
-        cerr<<"there is no path"<<endl;
+        throw "no path exists";
     }
 
     bool isMark(vector<State<Var>*> marked, State<Var>* state) {
@@ -57,9 +57,9 @@ class BFS : public Searcher<Solution, Var> {
         return false;
     }
 
-    Solution backTrace(vector<State<Var>*> marked) {
+    Solution backTrace(vector<State<Var>*> closed) {
         vector<State<Var>*> trace;
-        State<Var>* tempState = marked[marked.size()-1];
+        State<Var>* tempState = closed[closed.size()-1];
         while(tempState != NULL) {
             trace.push_back(tempState);
             tempState = tempState->getCameFrom();
