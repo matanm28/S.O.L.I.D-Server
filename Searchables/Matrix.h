@@ -24,7 +24,7 @@ public:
 
     Matrix(vector<vector<double>> matrix,  State<Position> *init,  State<Position> *goal);
 
-        double calcHeuristic(State<Position>* current) override;
+    double calcHeuristic(State<Position>* current) override;
 
     State<Position>* getInitialState() override;
 

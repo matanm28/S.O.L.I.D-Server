@@ -99,6 +99,7 @@ public:
         return !(rhs == *this);
     }
 
+
     bool operator<(const State &rhs) const {
         return this->trialCost < rhs.getTrialCost();
     }

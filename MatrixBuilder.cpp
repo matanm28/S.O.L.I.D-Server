@@ -25,7 +25,7 @@ Matrix* MatrixBuilder::buildMatrix(ifstream &inFile) {
         line.erase(0, line.find(LINE_DELIM) + 1);
         vector<string> matrixStringRow = splitString(row, CELLS_DELIM);
         lines.push_back(matrixStringRow);
-        line ="";
+        line = "";
     }
     bool initFlag = true;
     for (vector<string> vec: lines) {
