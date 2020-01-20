@@ -21,9 +21,9 @@ public:
 protected:
     ClientHandler();
 
-    virtual Problem makeProblem(ifstream &inputStream) = 0;
+    /*virtual Problem makeProblem(ifstream &inputStream) = 0;
 
-    virtual void writeSolution(ofstream &outputStream, Solution solution) = 0;
+    virtual void writeSolution(ofstream &outputStream, Solution solution) = 0;*/
 
 
 };

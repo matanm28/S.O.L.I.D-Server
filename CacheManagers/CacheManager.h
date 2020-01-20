@@ -14,6 +14,7 @@
 #include <fstream>
 #include <iterator>
 #include <algorithm>
+#include "../Position.h"
 
 using namespace std;
 

@@ -12,7 +12,7 @@
 #include "Solver/SearchSolver.h"
 #include "Position.h"
 #include "State.h"
-#include "Handlers/MatrixHandler.h"
+#include "Handlers/MyClientHandler.h"
 #include "CacheManagers/CacheManager.h"
 
 using namespace std;
@@ -31,7 +31,8 @@ int main() {
     ISolver<ISearchable<Position> *, vector<State<Position> *>> *solver1 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *>, Position>(
             bestfs);
     CacheManager<vector<State<Position> * >> *cacheManager = new CacheManager<vector<State<Position> * >>(5);
-    MatrixHandler *matrixHandler = new MatrixHandler(solver1, cacheManager);
+    MyClientHandler<ISearchable<Position> *, vector<State<Position> *>, Position> *matrixHandler = new MyClientHandler<ISearchable<Position> *, vector<State<Position> *>, Position>(
+            solver1, cacheManager);
     matrixHandler->handleClient(inFile, outFile);
     MatrixBuilder mb;
     ISearchable<Position> *matrix = mb.buildMatrix(inFile);

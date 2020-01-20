@@ -23,9 +23,9 @@ public:
     void handleClient(ifstream &inputStream, ofstream &outputStream) override;
 
 protected:
-    virtual string makeProblem(ifstream &inputStream) override;
+    string makeProblem(ifstream &inputStream);
 
-    virtual void writeSolution(ofstream &outputStream, string solution) override;
+    void writeSolution(ofstream &outputStream, string solution);
 
 
 };

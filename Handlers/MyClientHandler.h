@@ -15,6 +15,7 @@
 #include <vector>
 #include "../State.h"
 #include "../Position.h"
+#include "../MatrixBuilder.h"
 
 using namespace std;
 
@@ -24,14 +25,16 @@ protected:
     ISolver<Problem, Solution> *solver;
     CacheManager<Solution> *cache;
 
-    MyClientHandler(ISolver<ISearchable<Var> *, Solution> *solver, CacheManager<Solution> *cache) {
+public:
+    MyClientHandler(ISolver<Problem, Solution> *solver, CacheManager<Solution> *cache) {
         this->solver = solver;
         this->cache = cache;
     }
 
-public:
     virtual void handleClient(ifstream &inputStream, ofstream &outputStream) override {
-        ISearchable<Var> *searchable = this->makeProblem(inputStream);
+        MatrixBuilder *mb;
+        //ISearchable<Var> *searchable = this->makeProblem(inputStream);
+        ISearchable<Var> *searchable = mb->buildMatrix(inputStream);
         Solution solution;
         try {
             solution = this->cache->get(searchable->toString());
@@ -40,8 +43,10 @@ public:
             solution = this->solver->solve(searchable);
             this->cache->insert(searchable->toString(), solution);
         }
-        this->writeSolution(outputStream, solution);
+        //this->writeSolution(outputStream, solution);
     }
+
+
 };
 
 #endif //SOLID_SERVER_REDO_MYCLIENTHANDLER_H
