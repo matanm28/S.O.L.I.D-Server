@@ -23,3 +23,11 @@ int Position::getRow() const {
 int Position::getCol() const {
     return col;
 }
+
+string Position::toString() {
+    string posStr;
+    posStr.append(to_string(this->getRow()));
+    posStr.append(DELIMITER);
+    posStr.append(to_string(this->getCol()));
+    return posStr;
+}
