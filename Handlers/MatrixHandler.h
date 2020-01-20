@@ -19,7 +19,7 @@ public:
                   CacheManager<vector<State<Position> *>> *cache);
 
 protected:
-    ISearchable<Position> makeProblem(ifstream &inputStream) override;
+    ISearchable<Position> *makeProblem(ifstream &inputStream) override;
 
     void writeSolution(ofstream &outputStream, vector<State<Position> *> solution) override;
 

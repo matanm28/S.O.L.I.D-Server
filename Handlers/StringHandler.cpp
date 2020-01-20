@@ -4,11 +4,6 @@
 
 #include "StringHandler.h"
 
-StringHandler::StringHandler(ISolver<string, string> *solver, CacheManager<string> *cache) {
-    this->solver = solver;
-    this->cache = cache;
-}
-
 StringHandler::StringHandler() {
     this->solver = new StringReverser;
     this->cache = new CacheManager<string>(DEFAULT_CAP);

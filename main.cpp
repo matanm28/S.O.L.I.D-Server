@@ -30,7 +30,7 @@ int main() {
     ISearcher<vector<State<Position> *>, Position> *bestfs = new BestFS<vector<State<Position> *>, Position>();
     ISolver<ISearchable<Position> *, vector<State<Position> *>> *solver1 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *>, Position>(
             bestfs);
-    CacheManager<vector<State<Position> *>> *cacheManager = new CacheManager<vector<State<Position> *>>(5);
+    CacheManager<vector<State<Position> * >> *cacheManager = new CacheManager<vector<State<Position> * >>(5);
     MatrixHandler *matrixHandler = new MatrixHandler(solver1, cacheManager);
     matrixHandler->handleClient(inFile, outFile);
     MatrixBuilder mb;

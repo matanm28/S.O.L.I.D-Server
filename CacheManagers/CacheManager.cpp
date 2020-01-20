@@ -8,7 +8,11 @@
 template<class Solution>
 CacheManager<Solution>::CacheManager(int capacity) {
     this->capacity = capacity;
-    this->className = Solution::class_name;
+}
+
+template<class Solution>
+CacheManager<Solution>::CacheManager() {
+    this->capacity = 5;
 }
 
 template<class Solution>
@@ -45,14 +49,6 @@ Solution CacheManager<Solution>::get(string key) {
         this->lruAndCacheUpdate(entry.first, entry.second);
     }
     return this->cache[key].first;
-}
-
-template<class Solution>
-void CacheManager<Solution>::foreach(const function<void(Solution &)> function) {
-    for (auto iter = this->lru.rbegin(); iter != this->lru.rend(); iter++) {
-        function(this->cache[*iter].first);
-    }
-
 }
 
 template<class Solution>

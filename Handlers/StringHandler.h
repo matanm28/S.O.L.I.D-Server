@@ -8,6 +8,7 @@
 #include "ClientHandler.h"
 #include "../Solver/ISolver.h"
 #include "../Solver/StringReverser.h"
+#include "../CacheManagers/CacheManager.h"
 #include <string>
 
 using namespace std;
@@ -18,8 +19,6 @@ private:
     CacheManager<string> *cache;
 public:
     StringHandler();
-
-    StringHandler(ISolver<string, string> *solver, CacheManager<string> *cache);
 
     void handleClient(ifstream &inputStream, ofstream &outputStream) override;
 

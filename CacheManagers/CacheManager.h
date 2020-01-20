@@ -23,19 +23,17 @@ class CacheManager {
 private:
     unsigned int capacity;
     unsigned int size = 0;
-    string className;
-    pair<string, Solution> null = pair<string, Solution>("ERROR", *(new Solution()));
     unordered_map<string, pair<Solution, list<string>::iterator>> cache;
     list<string> lru = list<string>();
 
 public:
+    CacheManager();
+
     explicit CacheManager(int capacity);
 
     void insert(string key, Solution obj);
 
     Solution get(string key);
-
-    void foreach(function<void(Solution &)> function);
 
     virtual ~CacheManager();
 

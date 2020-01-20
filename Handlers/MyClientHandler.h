@@ -12,11 +12,14 @@
 #include "ClientHandler.h"
 #include "../Position.h"
 #include <string>
+#include <vector>
+#include "../State.h"
+#include "../Position.h"
 
 using namespace std;
 
 template<class Solution, class Var>
-class MyClientHandler : public ClientHandler<ISearchable<Var>, Solution, Var> {
+class MyClientHandler : public ClientHandler<ISearchable<Var> *, Solution, Var> {
 protected:
     ISolver<ISearchable<Var> *, vector<State<Position> *>> *solver;
     CacheManager<Solution> *cache;
@@ -28,19 +31,16 @@ protected:
 
 public:
     virtual void handleClient(ifstream &inputStream, ofstream &outputStream) override {
-        {
-            ISearchable<Var> *searchable = this->makeProblem(inputStream);
-            Solution solution;
-            try {
-                solution = this->cache->get(searchable->toString());
-            } catch (char *exception) {
-                //todo check for possible exception here
-                solution = this->solver->solve(searchable);
-                this->cache->insert(searchable->toString(), solution);
-            }
-            this->writeSolution(outputStream, solution);
+        ISearchable<Var> *searchable = this->makeProblem(inputStream);
+        Solution solution;
+        try {
+            solution = this->cache->get(searchable->toString());
+        } catch (char *exception) {
+            //todo check for possible exception here
+            solution = this->solver->solve(searchable);
+            this->cache->insert(searchable->toString(), solution);
         }
-
+        this->writeSolution(outputStream, solution);
     }
 };
 
