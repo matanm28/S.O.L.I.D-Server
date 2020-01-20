@@ -18,10 +18,10 @@
 
 using namespace std;
 
-template<class Solution, class Var>
-class MyClientHandler : public ClientHandler<ISearchable<Var> *, Solution, Var> {
+template<class Problem, class Solution, class Var>
+class MyClientHandler : public ClientHandler<Problem, Solution, Var> {
 protected:
-    ISolver<ISearchable<Var> *, vector<State<Position> *>> *solver;
+    ISolver<Problem, Solution> *solver;
     CacheManager<Solution> *cache;
 
     MyClientHandler(ISolver<ISearchable<Var> *, Solution> *solver, CacheManager<Solution> *cache) {
