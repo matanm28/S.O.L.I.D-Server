@@ -22,6 +22,8 @@ public:
 
     virtual bool isGoalState(State<Position> *state) = 0;
 
+    virtual string toString() = 0;
+
     virtual vector<State<Position> *> getAllPossibleStates(State<Position> *state) = 0;
 };
 

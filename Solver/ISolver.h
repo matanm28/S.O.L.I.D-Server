@@ -5,7 +5,9 @@
 #ifndef SOLID_SERVER_REDO_ISOLVER_H
 #define SOLID_SERVER_REDO_ISOLVER_H
 
-template <class Problem, class Solution>
+#include <string>
+
+template<class Problem, class Solution>
 class ISolver {
 public:
     virtual Solution solve(Problem problem) = 0;

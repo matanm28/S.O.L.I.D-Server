@@ -12,32 +12,40 @@
 #include "Solver/SearchSolver.h"
 #include "Position.h"
 #include "State.h"
+#include "Handlers/MyClientHandler.h"
+#include "CacheManagers/CacheManager.h"
 
 using namespace std;
+
 int main() {
     //Problem = ISearchable<Position>*
-    //Solution = vector<State<Position>>
+    //Solution = vector<State<Position>*>*
     //Var = Position
     ifstream inFile("/home/sapir/Desktop/SOLID_Server_REDO/matrix_test.txt");
-    if (!inFile) {
+    ofstream outFile("/home/sapir/Desktop/SOLID_Server_REDO/matrix_test_output.txt");
+    if (!inFile || !outFile) {
         cerr << "error opening file" << endl;
         return -1;
     }
-    MatrixBuilder mb;
-    ISearchable<Position> *matrix = mb.buildMatrix(inFile);
-    ///call metrixBuilder
-    ISearcher<vector<State<Position>*>, Position> *bestfs = new BestFS<vector<State<Position>*>, Position>();
-    ISearcher<vector<State<Position>*>, Position> *dfs = new DFS<vector<State<Position>*>, Position>();
-    ISearcher<vector<State<Position>*>, Position> *bfs = new BFS<vector<State<Position>*>, Position>();
-    ISearcher<vector<State<Position>*>, Position> *aStar = new Astar<vector<State<Position>*>, Position>();
-    ISolver<ISearchable<Position>*, vector<State<Position>*>> *solver1 = new SearchSolver<ISearchable<Position>*, vector<State<Position>*>, Position>(bestfs);
-    ISolver<ISearchable<Position>*, vector<State<Position>*>> *solver2 = new SearchSolver<ISearchable<Position>*, vector<State<Position>*>, Position>(dfs);
-    ISolver<ISearchable<Position>*, vector<State<Position>*>> *solver3 = new SearchSolver<ISearchable<Position>*, vector<State<Position>*>, Position>(bfs);
-    ISolver<ISearchable<Position>*, vector<State<Position>*>> *solver4 = new SearchSolver<ISearchable<Position>*, vector<State<Position>*>, Position>(aStar);
-   // ISearchable<Position>* matrix = new Matrix();
-    vector<State<Position>*> bestFS_trace = solver1->solve(matrix);
-    vector<State<Position>*> DFS_trace = solver2->solve(matrix);
-    vector<State<Position>*> BFS_trace = solver3->solve(matrix);
-    vector<State<Position>*> Astar_trace = solver4->solve(matrix);
+    ////algorithms
+    ISearcher<vector<State<Position> *>*, Position> *bestfs = new BestFS<vector<State<Position> *>*, Position>();
+    ISearcher<vector<State<Position> *>*, Position> *dfs = new DFS<vector<State<Position> *>*, Position>();
+    ISearcher<vector<State<Position> *>*, Position> *bfs = new BFS<vector<State<Position> *>*, Position>();
+    ISearcher<vector<State<Position> *>*, Position> *aStar = new Astar<vector<State<Position> *>*, Position>();
+    ////search solvers
+    ISolver<ISearchable<Position> *, vector<State<Position> *>*> *solver1 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *>*, Position>(
+            bestfs);
+    ISolver<ISearchable<Position> *, vector<State<Position> *>*> *solver2 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *>*, Position>(
+            dfs);
+    ISolver<ISearchable<Position> *, vector<State<Position> *>*> *solver3 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *>*, Position>(
+            bfs);
+    ISolver<ISearchable<Position> *, vector<State<Position> *>*> *solver4 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *>*, Position>(
+            aStar);
+    ////client handlers
+    MyClientHandler<ISearchable<Position>*, vector<State<Position>*>*, Position> *clientHandler1 = new MyClientHandler<ISearchable<Position>*, vector<State<Position>*>*, Position>(solver1);
+    MyClientHandler<ISearchable<Position>*, vector<State<Position>*>*, Position> *clientHandler4 = new MyClientHandler<ISearchable<Position>*, vector<State<Position>*>*, Position>(solver4);
+    clientHandler1->handleClient(inFile, outFile);
+    clientHandler4->handleClient(inFile, outFile);
+
     return 0;
 }

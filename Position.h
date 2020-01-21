@@ -4,7 +4,11 @@
 
 #ifndef SOLID_SERVER_REDO_POSITION_H
 #define SOLID_SERVER_REDO_POSITION_H
+#define DELIMITER ", "
 
+#include <string>
+
+using namespace std;
 
 class Position {
 public:
@@ -19,6 +23,9 @@ public:
     int getRow() const;
 
     int getCol() const;
+
+    string toString();
+
 
 private:
     int row, col;

@@ -4,38 +4,33 @@
 
 #include "Matrix.h"
 
-Matrix::Matrix() {
-    vector<vector<double> > vect{ {1, 0.0, 0.0,100 },
-                               { 1, 1, 100, 200 },
-                               { 1, 0.0, 1, 1 } };
-
-    vector<vector<double> > vect1{ {1,0.0,0.0,100},
-                                 {1,1,100,200},
-                                   {1,0,1,1}};
-    this->matrix = vect1;
-    this->init = new State<Position>(Position(0,0), 1.0, 1.0, NULL);
-    this->goal = new State<Position>(Position(2,3),1);
-}
-
-Matrix::Matrix(vector<vector<double>> matrix,  State<Position> *init,  State<Position> *goal) {
+Matrix::Matrix(vector<vector<double>> matrix, State<Position> *init, State<Position> *goal) {
     this->matrix = matrix;
     this->init = init;
     this->goal = goal;
 }
 
-State<Position>* Matrix::getInitialState() {
+//todo check if needed
+Matrix::Matrix(const Matrix &matrix1) {
+    Matrix(matrix1.matrix,
+           new State<Position>(matrix1.init->getState(), matrix1.init->getCost(), matrix1.init->getCameFrom()),
+           new State<Position>(matrix1.init->getState(), matrix1.init->getCost(), matrix1.init->getCameFrom()));
+
+}
+
+State<Position> *Matrix::getInitialState() {
     return this->init;
 }
 
-State<Position>* Matrix::getGoalState() {
+State<Position> *Matrix::getGoalState() {
     return this->goal;
 }
 
-bool Matrix::isGoalState(State<Position>* state) {
+bool Matrix::isGoalState(State<Position> *state) {
     return (*state == *this->goal);
 }
 
-double Matrix::calcHeuristic(State<Position>* current) {
+double Matrix::calcHeuristic(State<Position> *current) {
     int iCurrent = current->getState().getRow();
     int jCurrent = current->getState().getCol();
     int iGoal = this->goal->getState().getRow();
@@ -45,37 +40,61 @@ double Matrix::calcHeuristic(State<Position>* current) {
     return f;
 }
 
-vector<State<Position>*> Matrix::getAllPossibleStates(State<Position>* state) {
+vector<State<Position> *> Matrix::getAllPossibleStates(State<Position> *state) {
     Position pos = state->getState();
     int i, j;
     i = pos.getRow();
     j = pos.getCol();
-    vector<State<Position>*> adj;
+    vector<State<Position> *> adj;
     //up
     if (this->isInBoundaries(i - 1, j)) {
-        State<Position>* s = new State<Position>(Position(i - 1,j), this->matrix[i - 1][j],this->matrix[i - 1][j] + state->getTrialCost(), state, "Up");
+        State<Position> *s = new State<Position>(Position(i - 1, j), this->matrix[i - 1][j],
+                                                 this->matrix[i - 1][j] + state->getTrialCost(), state, "Up");
         adj.push_back(s);
     }
     //down
     if (this->isInBoundaries(i + 1, j)) {
-        adj.push_back(new State<Position>(Position(i + 1, j), this->matrix[i + 1][j],this->matrix[i + 1][j] + state->getTrialCost(), state, "Down"));
+        adj.push_back(new State<Position>(Position(i + 1, j), this->matrix[i + 1][j],
+                                          this->matrix[i + 1][j] + state->getTrialCost(), state, "Down"));
     }
     //left
     if (this->isInBoundaries(i, j - 1)) {
-        adj.push_back(new State<Position>(Position(i, j - 1), this->matrix[i][j - 1],this->matrix[i][j - 1] + state->getTrialCost(), state, "Left"));
+        adj.push_back(new State<Position>(Position(i, j - 1), this->matrix[i][j - 1],
+                                          this->matrix[i][j - 1] + state->getTrialCost(), state, "Left"));
     }
     //right
     if (this->isInBoundaries(i, j + 1)) {
-        adj.push_back(new State<Position>(Position(i, j + 1), this->matrix[i][j + 1],this->matrix[i][j + 1] + state->getTrialCost(), state, "Right"));
+        adj.push_back(new State<Position>(Position(i, j + 1), this->matrix[i][j + 1],
+                                          this->matrix[i][j + 1] + state->getTrialCost(), state, "Right"));
     }
     return adj;
 }
 
 bool Matrix::isInBoundaries(int row, int col) {
-    if((0 <= row && row <= this->matrix.size() - 1) && (0 <= col && col <= this->matrix[0].size() - 1)) {
-        if(this->matrix[row][col] != INFINITY) {
+    if ((0 <= row && row <= this->matrix.size() - 1) && (0 <= col && col <= this->matrix[0].size() - 1)) {
+        if (this->matrix[row][col] != INFINITY) {
             return true;
         }
     }
     return false;
 }
+
+string Matrix::toString() {
+    string matrixStr;
+    for (vector<double> vec:this->matrix) {
+        for (double value:vec) {
+            matrixStr.append(to_string(value));
+            matrixStr.append(DELIMITER);
+        }
+        matrixStr.append("\n");
+    }
+    matrixStr.append("\n");
+    matrixStr.append(this->init->getState().toString());
+    matrixStr.append("\n");
+    matrixStr.append(this->goal->getState().toString());
+    matrixStr.append("\n");
+    return matrixStr;
+
+}
+
+

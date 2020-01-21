@@ -23,10 +23,10 @@ public:
     Solution search(ISearchable<Var>* searchable) {
         searchable->getInitialState()->setHeuristicCost(0);
         this->addToOpenList(searchable->getInitialState());
-        vector<State<Var> *> closed;
+        vector<State<Var> *> *closed = new vector<State<Var>*>();
         while (this->openListSize() > 0) {
             State<Var> *n = this->popOpenList();
-            closed.push_back(n);
+            closed->push_back(n);
             //if n is goal - we reached the best path
             if (searchable->isGoalState(n)) {
                 return this->backTrace(closed);
@@ -59,20 +59,20 @@ public:
         throw "no path exists";
     }
 
-    bool isInClosed(vector<State<Var>*> closed, State<Var>* state) {
-        for(int i = 0; i < closed.size(); i++) {
-            if(*closed[i] == *state) {
+    bool isInClosed(vector<State<Var>*>* closed, State<Var>* state) {
+        for(int i = 0; i < closed->size(); i++) {
+            if(*closed->at(i) == *state) {
                 return true;
             }
         }
         return false;
     }
 
-    Solution backTrace(vector<State<Var>*> closed) {
-        vector<State<Var>*> trace;
-        State<Var>* tempState = closed[closed.size()-1];
-        while(tempState != NULL) {
-            trace.push_back(tempState);
+    Solution backTrace(vector<State<Var>*>* closed) {
+        vector<State<Var>*> *trace = new vector<State<Var>*>();
+        State<Var>* tempState = closed->at(closed->size()-1);
+        while(tempState != nullptr) {
+            trace->push_back(tempState);
             tempState = tempState->getCameFrom();
         }
         return trace;

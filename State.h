@@ -49,6 +49,8 @@ public:
         this->direction = direction + "(" + to_string(this->trialCost) + ")";
     }
 
+    State(Var state, double cost, State<Var> *cameFrom) : state(state), cost(cost), cameFrom(cameFrom) {}
+
     void setTrialCost(double trialCost) {
         this->trialCost = trialCost;
 
