@@ -18,7 +18,10 @@ private:
     ISolver<string, string> *solver;
     CacheManager<string> *cache;
 public:
-    StringHandler();
+    StringHandler() {
+        this->solver = new StringReverser;
+        this->cache = new CacheManager<string>(DEFAULT_CAP);
+    }
 
     void handleClient(ifstream &inputStream, ofstream &outputStream) override;
 
