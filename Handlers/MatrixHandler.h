@@ -16,12 +16,18 @@
 class MatrixHandler : public MyClientHandler<vector<State<Position> *>, Position> {
 public:
     MatrixHandler(ISolver<ISearchable<Position> *, vector<State<Position> *>> *solver,
-                  CacheManager<vector<State<Position> *>> *cache);
+                  CacheManager<string> *cache);
+
+    MatrixHandler(ISolver<ISearchable<Position> *, vector<State<Position> *>> *solver);
 
 protected:
     ISearchable<Position> *makeProblem(ifstream &inputStream) override;
 
     void writeSolution(ofstream &outputStream, vector<State<Position> *> solution) override;
+
+    void writeSolution(string solution, ofstream &outputStream) override;
+
+    string solutionToString(vector<State<Position> *> solution) override;
 
 };
 

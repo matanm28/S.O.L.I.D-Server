@@ -6,9 +6,10 @@
 
 
 MatrixHandler::MatrixHandler(ISolver<ISearchable<Position> *, vector<State<Position> *>> *solver,
-                             CacheManager<vector<State<Position> *>> *cache) : MyClientHandler(solver, cache) {
+                             CacheManager<string> *cache) : MyClientHandler(solver, cache) {}
 
-}
+MatrixHandler::MatrixHandler(ISolver<ISearchable<Position> *, vector<State<Position> *>> *solver) : MyClientHandler(
+        solver) {}
 
 ISearchable<Position> *MatrixHandler::makeProblem(ifstream &inputStream) {
     MatrixBuilder mb;
@@ -17,17 +18,27 @@ ISearchable<Position> *MatrixHandler::makeProblem(ifstream &inputStream) {
 }
 
 void MatrixHandler::writeSolution(ofstream &outputStream, vector<State<Position> *> solution) {
+    this->writeSolution(this->solutionToString(solution), outputStream);
+}
+
+string MatrixHandler::solutionToString(vector<State<Position> *> solution) {
     unsigned int numOfLines, count;
+    string outputString;
     numOfLines = solution.size() / NUM_OF_LINES_CONSTANT;
     count = 0;
     for (State<Position> *state: solution) {
-        outputStream << state->getDirection() << ", ";
+        outputString.append(state->getDirection() + ", ");
         if (count == numOfLines) {
             count = 0;
-            outputStream << endl;
+            outputString.append("\n");
         } else {
             count++;
         }
     }
+    return outputString;
+}
+
+void MatrixHandler::writeSolution(string solution, ofstream &outputStream) {
+    outputStream << solution;
 }
 

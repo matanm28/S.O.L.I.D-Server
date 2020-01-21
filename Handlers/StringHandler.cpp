@@ -4,10 +4,6 @@
 
 #include "StringHandler.h"
 
-StringHandler::StringHandler() {
-    this->solver = new StringReverser;
-    this->cache = new CacheManager<string>(DEFAULT_CAP);
-}
 
 void StringHandler::handleClient(ifstream &inputStream, ofstream &outputStream) {
     string problem = this->makeProblem(inputStream);
