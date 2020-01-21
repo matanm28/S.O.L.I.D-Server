@@ -50,7 +50,6 @@ public:
 //        }
         //todo: solution[0] is NULL instead of goalState
         solution = this->solver->solve(searchable);
-        cout << "hello" << endl;
         //this->writeSolution(outputStream, solution);
     }
 
