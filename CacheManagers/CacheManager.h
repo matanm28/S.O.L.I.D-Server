@@ -15,6 +15,7 @@
 #include <iterator>
 #include <algorithm>
 #include <functional>
+#include <cstring>
 #include "../Position.h"
 
 using namespace std;
@@ -64,7 +65,8 @@ public:
         } else {
             try {
                 pair<string, Solution> entry = this->loadFromFile(key);
-                this->lruAndCacheUpdate(entry.first, entry.second);
+                this->insert(key, entry.second);
+                //this->lruAndCacheUpdate(entry.first, entry.second);
             } catch (const char *exception) {
                 cerr << "key " << key << " doesn't exist" << endl;
                 throw "key not found";
@@ -89,11 +91,17 @@ private:
     }
 
     pair<string, Solution> loadFromFile(string key) {
-        Solution entryObj;
+        string entryObj;
         string filePath = to_string(this->solutionHasher(key)) + ".txt";
         ifstream in_file{filePath, ios::in};
         if (in_file.is_open()) {
-            in_file >> entryObj;
+            char buffer[1024];
+            while (!in_file.eof()) {
+                bzero(buffer, 1024);
+                in_file.getline(buffer, 1024, '\n');
+                entryObj.append(buffer);
+                entryObj.append("\n");
+            }
             in_file.close();
             return pair<string, Solution>(key, entryObj);
         } else {

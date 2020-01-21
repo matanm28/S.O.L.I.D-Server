@@ -5,10 +5,10 @@
 #include "MatrixHandler.h"
 
 
-MatrixHandler::MatrixHandler(ISolver<ISearchable<Position> *, vector<State<Position> *>> *solver,
+MatrixHandler::MatrixHandler(ISolver<ISearchable<Position> *, vector<State<Position> *> *> *solver,
                              CacheManager<string> *cache) : MyClientHandler(solver, cache) {}
 
-MatrixHandler::MatrixHandler(ISolver<ISearchable<Position> *, vector<State<Position> *>> *solver) : MyClientHandler(
+MatrixHandler::MatrixHandler(ISolver<ISearchable<Position> *, vector<State<Position> *> *> *solver) : MyClientHandler(
         solver) {}
 
 ISearchable<Position> *MatrixHandler::makeProblem(ifstream &inputStream) {
@@ -17,17 +17,20 @@ ISearchable<Position> *MatrixHandler::makeProblem(ifstream &inputStream) {
     return matrix;
 }
 
-void MatrixHandler::writeSolution(ofstream &outputStream, vector<State<Position> *> solution) {
+void MatrixHandler::writeSolution(ofstream &outputStream, vector<State<Position> *> *solution) {
     this->writeSolution(this->solutionToString(solution), outputStream);
 }
 
-string MatrixHandler::solutionToString(vector<State<Position> *> solution) {
+string MatrixHandler::solutionToString(vector<State<Position> *> *solution) {
     unsigned int numOfLines, count;
     string outputString;
-    numOfLines = solution.size() / NUM_OF_LINES_CONSTANT;
+    numOfLines = solution->size() / NUM_OF_LINES_CONSTANT;
     count = 0;
-    for (State<Position> *state: solution) {
-        outputString.append(state->getDirection() + ", ");
+    for (long i = solution->size() - 2; i >= 0; i--) {
+        outputString.append(solution->at(i)->getDirection());
+        if (i) {
+            outputString.append(", ");
+        }
         if (count == numOfLines) {
             count = 0;
             outputString.append("\n");

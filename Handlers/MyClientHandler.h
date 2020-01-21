@@ -22,7 +22,7 @@ using namespace std;
 template<class Solution, class Var>
 class MyClientHandler : public ClientHandler<ISearchable<Var> *, Solution, Var> {
 protected:
-    ISolver<ISearchable<Var> *, vector<State<Position> *>> *solver;
+    ISolver<ISearchable<Var> *, vector<State<Position> *> *> *solver;
     CacheManager<string> *cache;
 
     MyClientHandler(ISolver<ISearchable<Var> *, Solution> *solver, CacheManager<string> *cache) {
@@ -30,7 +30,7 @@ protected:
         this->cache = cache;
     }
 
-    MyClientHandler(ISolver<ISearchable<Var> *, vector<State<Position> *>> *solver) {
+    MyClientHandler(ISolver<ISearchable<Var> *, vector<State<Position> *> *> *solver) {
         this->solver = solver;
         this->cache = new CacheManager<string>(5);
     }

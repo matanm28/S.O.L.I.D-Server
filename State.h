@@ -8,7 +8,9 @@
 #include <iostream>
 #include <string>
 #include "Position.h"
+
 using namespace std;
+
 template<class Var>
 class State {
 private:
@@ -46,7 +48,13 @@ public:
         this->cameFrom = cameFrom;
         this->cost = cost;
         this->trialCost = trialCost;
-        this->direction = direction + "(" + to_string(this->trialCost) + ")";
+        string tempStr = to_string(this->trialCost);
+        if (trialCost == (int) trialCost) {
+            this->direction = direction + "(" + tempStr.substr(0, tempStr.find(".")) + ")";
+        } else {
+            this->direction = direction + "(" + tempStr.substr(0, tempStr.find(".") + 2) + ")";
+        }
+
     }
 
     State(Var state, double cost, State<Var> *cameFrom) : state(state), cost(cost), cameFrom(cameFrom) {}

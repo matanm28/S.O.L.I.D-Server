@@ -28,36 +28,32 @@ int main() {
         return -1;
     }
     ////algorithms
-    ISearcher<vector<State<Position> *>*, Position> *bestfs = new BestFS<vector<State<Position> *>*, Position>();
-    ISearcher<vector<State<Position> *>*, Position> *dfs = new DFS<vector<State<Position> *>*, Position>();
-    ISearcher<vector<State<Position> *>*, Position> *bfs = new BFS<vector<State<Position> *>*, Position>();
-    ISearcher<vector<State<Position> *>*, Position> *aStar = new Astar<vector<State<Position> *>*, Position>();
+    ISearcher<vector<State<Position> *> *, Position> *bestfs = new BestFS<vector<State<Position> *> *, Position>();
+    ISearcher<vector<State<Position> *> *, Position> *dfs = new DFS<vector<State<Position> *> *, Position>();
+    ISearcher<vector<State<Position> *> *, Position> *bfs = new BFS<vector<State<Position> *> *, Position>();
+    ISearcher<vector<State<Position> *> *, Position> *aStar = new Astar<vector<State<Position> *> *, Position>();
     ////search solvers
-    ISolver<ISearchable<Position> *, vector<State<Position> *>*> *solver1 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *>*, Position>(
+    ISolver<ISearchable<Position> *, vector<State<Position> *> *> *solver1 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *> *, Position>(
             bestfs);
-    ISolver<ISearchable<Position> *, vector<State<Position> *>*> *solver2 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *>*, Position>(
-    CacheManager<string> *cacheManager = new CacheManager<string>(5);
-    MatrixHandler *matrixHandler = new MatrixHandler(solver1, cacheManager);
-    matrixHandler->handleClient(inFile, outFile);
-    MatrixBuilder mb;
-    ISearchable<Position> *matrix = mb.buildMatrix(inFile);
-    ///call metrixBuilder
-
-    ISearcher<vector<State<Position> *>, Position> *dfs = new DFS<vector<State<Position> *>, Position>();
-    ISearcher<vector<State<Position> *>, Position> *bfs = new BFS<vector<State<Position> *>, Position>();
-    ISearcher<vector<State<Position> *>, Position> *aStar = new Astar<vector<State<Position> *>, Position>();
-
-    ISolver<ISearchable<Position> *, vector<State<Position> *>> *solver2 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *>, Position>(
+    ISolver<ISearchable<Position> *, vector<State<Position> *> *> *solver2 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *> *, Position>(
             dfs);
-    ISolver<ISearchable<Position> *, vector<State<Position> *>*> *solver3 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *>*, Position>(
+    ISolver<ISearchable<Position> *, vector<State<Position> *> *> *solver3 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *> *, Position>(
             bfs);
-    ISolver<ISearchable<Position> *, vector<State<Position> *>*> *solver4 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *>*, Position>(
+    ISolver<ISearchable<Position> *, vector<State<Position> *> *> *solver4 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *> *, Position>(
             aStar);
     ////client handlers
-    MyClientHandler<ISearchable<Position>*, vector<State<Position>*>*, Position> *clientHandler1 = new MyClientHandler<ISearchable<Position>*, vector<State<Position>*>*, Position>(solver1);
-    MyClientHandler<ISearchable<Position>*, vector<State<Position>*>*, Position> *clientHandler4 = new MyClientHandler<ISearchable<Position>*, vector<State<Position>*>*, Position>(solver4);
-    clientHandler1->handleClient(inFile, outFile);
-    clientHandler4->handleClient(inFile, outFile);
+    MatrixHandler *matrixHandler1 = new MatrixHandler(solver1);
+    MatrixHandler *matrixHandler4 = new MatrixHandler(solver4);
+    matrixHandler1->handleClient(inFile, outFile);
+    inFile.close();
+    outFile.close();
+    ifstream inFile1("/home/matan/Desktop/CS/SOLID_Server_REDO/matrix_test.txt");
+    ofstream outFile1("/home/matan/Desktop/CS/SOLID_Server_REDO/matrix_test_output.txt");
+    if (!inFile || !outFile) {
+        cerr << "error opening file" << endl;
+        return -1;
+    }
+    matrixHandler4->handleClient(inFile1, outFile1);
 
     return 0;
 }
