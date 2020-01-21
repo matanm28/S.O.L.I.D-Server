@@ -19,7 +19,8 @@ public:
     }
     //the searchable as parameter
     Solution solve(Problem problem) override {
-        return this->searcher->search(problem);
+        Solution solution = this->searcher->search(problem);
+        return solution;
     }
 };
 

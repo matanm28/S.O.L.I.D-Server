@@ -27,6 +27,8 @@ Matrix* MatrixBuilder::buildMatrix(ifstream &inFile) {
         lines.push_back(matrixStringRow);
         line ="";
     }
+    inFile.clear();
+    inFile.seekg(0, ios::beg);
     bool initFlag = true;
     for (vector<string> vec: lines) {
         if(vec[0] != "end") {
@@ -34,7 +36,7 @@ Matrix* MatrixBuilder::buildMatrix(ifstream &inFile) {
                 int row = stoi(vec[0]);
                 int col = stoi(vec[1]);
                 if (initFlag) {
-                    init = new State<Position>(Position(row,col), matrix[row][col], matrix[row][col], NULL);
+                    init = new State<Position>(Position(row,col), matrix[row][col], matrix[row][col], nullptr);
                     initFlag = false;
                 } else {
                     goal = new State<Position>(Position(row,col), matrix[row][col]);

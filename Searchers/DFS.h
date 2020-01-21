@@ -22,17 +22,17 @@ template <class Solution, class Var>
 class DFS : public Searcher<Solution, Var>{
 public:
     Solution search(ISearchable<Var> *searchable) override {
-        stack<State<Var>*> stack;
-        vector<State<Var>*> marked;
+        stack<State<Var>*>* stack;
+        vector<State<Var>*>* marked = new vector<State<Var>*>;
         vector<State<Var>*> adj;
         State<Var>* currState;
-        stack.push(searchable->getInitialState());
-        while(!stack.empty()) {
-            currState = stack.top();
-            stack.pop();
+        stack->push(searchable->getInitialState());
+        while(!stack->empty()) {
+            currState = stack->top();
+            stack->pop();
             //if currState is goal - we got a path from init to goal
             if(searchable->isGoalState(currState)) {
-                marked.push_back(currState);
+                marked->push_back(currState);
                 return backTrace(marked);
             }
             //if currState is marked - continue to next State in stack
@@ -40,31 +40,31 @@ public:
                 continue;
             }
             //if currState is unmarked - mark currState and for all unmarked adjacent push to stack
-            marked.push_back(currState);
+            marked->push_back(currState);
             adj = searchable->getAllPossibleStates(currState);
             for (State<Var>* a: adj) {
                 if(!isMark(marked, a)) {
-                    stack.push(a);
+                    stack->push(a);
                 }
             }
         }
         throw "no path exists";
     }
 
-    bool isMark(vector<State<Var>*> marked, State<Var>* state) {
-        for(int i = 0; i < marked.size(); i++) {
-            if(*marked[i] == *state) {
+    bool isMark(vector<State<Var>*>* marked, State<Var>* state) {
+        for(int i = 0; i < marked->size(); i++) {
+            if(*marked->at(i) == *state) {
                 return true;
             }
         }
         return false;
     }
 
-    Solution backTrace(vector<State<Var>*> closed) {
-        vector<State<Var>*> trace;
-        State<Var>* tempState = closed[closed.size()-1];
-        while(tempState != NULL) {
-            trace.push_back(tempState);
+    Solution backTrace(vector<State<Var>*>* closed) {
+        vector<State<Var>*> *trace = new vector<State<Var>*>();
+        State<Var>* tempState = closed->at(closed->size()-1);
+        while(tempState != nullptr) {
+            trace->push_back(tempState);
             tempState = tempState->getCameFrom();
         }
         return trace;

@@ -18,9 +18,6 @@ class ClientHandler {
 public:
     virtual void handleClient(ifstream &inputStream, ofstream &outputStream) = 0;
 
-protected:
-    ClientHandler();
-
     /*virtual Problem makeProblem(ifstream &inputStream) = 0;
 
     virtual void writeSolution(ofstream &outputStream, Solution solution) = 0;*/
