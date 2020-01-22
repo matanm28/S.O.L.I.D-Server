@@ -18,6 +18,7 @@
 #include <cstring>
 #include "../Position.h"
 
+
 using namespace std;
 
 
@@ -68,7 +69,7 @@ public:
                 this->insert(key, entry.second);
                 //this->lruAndCacheUpdate(entry.first, entry.second);
             } catch (const char *exception) {
-                cerr << "key " << key << " doesn't exist" << endl;
+                //cerr << "key " << key << " doesn't exist" << endl;
                 throw "key not found";
             }
         }

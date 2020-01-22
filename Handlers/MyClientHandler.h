@@ -16,12 +16,14 @@
 #include "../State.h"
 #include "../Position.h"
 #include "../MatrixBuilder.h"
+#include <mutex>
 
 using namespace std;
 
 template<class Solution, class Var>
 class MyClientHandler : public ClientHandler<ISearchable<Var> *, Solution, Var> {
 protected:
+    mutex cacheLock;
     ISolver<ISearchable<Var> *, vector<State<Position> *> *> *solver;
     CacheManager<string> *cache;
 
@@ -39,14 +41,17 @@ public:
     virtual void handleClient(ifstream &inputStream, ofstream &outputStream) override {
         ISearchable<Var> *searchable = this->makeProblem(inputStream);
         string solutionStr;
+        this->cacheLock.lock();
         try {
             solutionStr = this->cache->get(searchable->toString());
             this->writeSolution(solutionStr, outputStream);
+            this->cacheLock.unlock();
         } catch (const char *exception) {
             //todo check for possible exception here
             Solution solution = this->solver->solve(searchable);
             this->cache->insert(searchable->toString(), this->solutionToString(solution));
             this->writeSolution(outputStream, solution);
+            this->cacheLock.unlock();
         }
 
     }

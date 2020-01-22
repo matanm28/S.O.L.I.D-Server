@@ -10,14 +10,6 @@ Matrix::Matrix(vector<vector<double>> matrix, State<Position> *init, State<Posit
     this->goal = goal;
 }
 
-//todo check if needed
-Matrix::Matrix(const Matrix &matrix1) {
-    Matrix(matrix1.matrix,
-           new State<Position>(matrix1.init->getState(), matrix1.init->getCost(), matrix1.init->getCameFrom()),
-           new State<Position>(matrix1.init->getState(), matrix1.init->getCost(), matrix1.init->getCameFrom()));
-
-}
-
 State<Position> *Matrix::getInitialState() {
     return this->init;
 }

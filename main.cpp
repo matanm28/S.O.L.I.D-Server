@@ -1,19 +1,19 @@
 #include <iostream>
 #include <fstream>
 #include "Searchables/ISearchable.h"
-#include "Searchables/Matrix.h"
 #include "Searchers/BestFS.h"
 #include "Searchers/DFS.h"
 #include "Searchers/BFS.h"
 #include "Searchers/Astar.h"
 #include "Searchers/ISearcher.h"
-#include "MatrixBuilder.h"
 #include "Solver/ISolver.h"
 #include "Solver/SearchSolver.h"
-#include "Position.h"
-#include "State.h"
 #include "Handlers/MatrixHandler.h"
-#include "CacheManagers/CacheManager.h"
+#include "Servers/IServer.h"
+#include "Servers/SerialServer.h"
+#include "Servers/ParallelServer.h"
+#include <thread>
+
 
 using namespace std;
 
@@ -21,12 +21,12 @@ int main() {
     //Problem = ISearchable<Position>*
     //Solution = vector<State<Position>>
     //Var = Position
-    ifstream inFile("/home/matan/Desktop/CS/SOLID_Server_REDO/matrix_test.txt");
+    /*ifstream inFile("/home/matan/Desktop/CS/SOLID_Server_REDO/matrix_test.txt");
     ofstream outFile("/home/matan/Desktop/CS/SOLID_Server_REDO/matrix_test_output.txt");
     if (!inFile || !outFile) {
         cerr << "error opening file" << endl;
         return -1;
-    }
+    }*/
     ////algorithms
     ISearcher<vector<State<Position> *> *, Position> *bestfs = new BestFS<vector<State<Position> *> *, Position>();
     ISearcher<vector<State<Position> *> *, Position> *dfs = new DFS<vector<State<Position> *> *, Position>();
@@ -44,16 +44,16 @@ int main() {
     ////client handlers
     MatrixHandler *matrixHandler1 = new MatrixHandler(solver1);
     MatrixHandler *matrixHandler4 = new MatrixHandler(solver4);
-    matrixHandler1->handleClient(inFile, outFile);
-    inFile.close();
-    outFile.close();
-    ifstream inFile1("/home/matan/Desktop/CS/SOLID_Server_REDO/matrix_test.txt");
-    ofstream outFile1("/home/matan/Desktop/CS/SOLID_Server_REDO/matrix_test_output.txt");
-    if (!inFile || !outFile) {
-        cerr << "error opening file" << endl;
-        return -1;
-    }
-    matrixHandler4->handleClient(inFile1, outFile1);
+    SerialServer *serialServer = new SerialServer();
+    /*serialServer->open(5600,matrixHandler1);
+    serialServer->run();*/
+    ParallelServer *server = new ParallelServer(10);
+    server->open(5601, matrixHandler4);
+    thread threadServer(&ParallelServer::run, server);
+    sleep(5);
+    server->stop();
+    threadServer.join();
+    cout << "Server done" << endl;
 
     return 0;
 }

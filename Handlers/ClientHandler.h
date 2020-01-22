@@ -7,17 +7,12 @@
 
 #define DEFAULT_CAP 5
 
-#include "../CacheManagers/CacheManager.h"
-#include <iostream>
-#include <fstream>
+#include "IHandler.h"
 
 using namespace std;
 
 template<class Problem, class Solution, class Var>
-class ClientHandler {
-public:
-    virtual void handleClient(ifstream &inputStream, ofstream &outputStream) = 0;
-
+class ClientHandler : public IHandler {
 protected:
     virtual Problem makeProblem(ifstream &inputStream) = 0;
 

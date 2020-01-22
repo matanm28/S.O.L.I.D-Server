@@ -24,8 +24,6 @@ public:
 
     Matrix(vector<vector<double>> matrix, State<Position> *init, State<Position> *goal);
 
-    Matrix(const Matrix &matrix1);
-
     double calcHeuristic(State<Position> *current) override;
 
     State<Position> *getInitialState() override;

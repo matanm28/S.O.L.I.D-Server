@@ -17,10 +17,14 @@
 using namespace std;
 class MatrixBuilder {
 public:
-    Matrix* buildMatrix(ifstream &inFile);
+    Matrix *buildMatrix(ifstream &inFile);
+
     vector<string> splitString(string source, const string &delimiter);
+
     vector<double> createVector(vector<string> stringVector);
 
+private:
+    bool checkLegalRow(string row);
 };
 
 
