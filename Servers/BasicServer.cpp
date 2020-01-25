@@ -72,16 +72,16 @@ void BasicServer::closeSocket(Socket socket) {
 
 void BasicServer::readData(string fileName, Socket socket) {
     string exactData, prevData, data;
-    char buffer[BUFFER_SIZE];
+    char buffer[BUFFER];
     int validRead;
     //reading from client
-    bzero(buffer, BUFFER_SIZE);
-    validRead = read(socket, buffer, BUFFER_SIZE);
+    bzero(buffer, BUFFER);
+    validRead = read(socket, buffer, BUFFER);
     data.append(buffer, validRead);
     while (data.find(END_STATEMENT) == string::npos) {
         int currRead = 0;
-        bzero(buffer, BUFFER_SIZE);
-        currRead = read(socket, buffer, BUFFER_SIZE);
+        bzero(buffer, BUFFER);
+        currRead = read(socket, buffer, BUFFER);
         validRead += currRead;
         data.append(buffer, currRead);
     }
@@ -99,16 +99,16 @@ void BasicServer::readData(string fileName, Socket socket) {
 
 void BasicServer::sendData(string fileName, Socket socket) {
     string data;
-    char buffer[BUFFER_SIZE];
+    char buffer[BUFFER];
     ifstream inFile(fileName);
     if (!inFile) {
         cerr << "error opening file" << endl;
         return;
     }
     while (!inFile.eof()) {
-        inFile.getline(buffer, BUFFER_SIZE);
+        inFile.getline(buffer, BUFFER);
         data.append(buffer);
-        bzero(buffer, BUFFER_SIZE);
+        bzero(buffer, BUFFER);
     }
     send(socket, data.c_str(), data.size(), 0);
     cout << "Server sent:" << endl;

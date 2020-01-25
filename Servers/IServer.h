@@ -6,7 +6,7 @@
 #define SOLID_SERVER_REDO_ISERVER_H
 
 
-#define BUFFER_SIZE 1024
+#define BUFFER 1024
 #define DEFAULT_SOCKET 5600
 #define END_STATEMENT "end"
 #define INPUT_FILE "problem.txt"

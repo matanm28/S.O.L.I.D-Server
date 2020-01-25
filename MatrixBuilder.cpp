@@ -15,12 +15,6 @@ Matrix *MatrixBuilder::buildMatrix(ifstream &inFile) {
         inFile.getline(buffer, BUFFER_SIZE, LINE_DELIM);
         line.append(buffer);
         bzero(buffer, BUFFER_SIZE);
-        //get all file and stuck - dont know why..
-//        while (line.find(LINE_DELIM) == string::npos) {
-//            inFile.getline(buffer, BUFFER_SIZE, LINE_DELIM);
-//            line.append(buffer);
-//            bzero(buffer, BUFFER_SIZE);
-//        }
         string row = line.substr(0, line.find(LINE_DELIM));
         line.erase(0, line.find(LINE_DELIM) + 1);
         if (this->checkLegalRow(row)) {
