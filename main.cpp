@@ -1,3 +1,5 @@
+#define DEFAULT_PORT 5600
+
 #include <iostream>
 #include <fstream>
 #include "Searchables/ISearchable.h"
@@ -17,16 +19,17 @@
 
 using namespace std;
 
-int main() {
-    //Problem = ISearchable<Position>*
-    //Solution = vector<State<Position>>
-    //Var = Position
-    /*ifstream inFile("/home/matan/Desktop/CS/SOLID_Server_REDO/matrix_test.txt");
-    ofstream outFile("/home/matan/Desktop/CS/SOLID_Server_REDO/matrix_test_output.txt");
-    if (!inFile || !outFile) {
-        cerr << "error opening file" << endl;
-        return -1;
-    }*/
+int main(int argc, char *argv[]) {
+    int port;
+    if (argc < 2) {
+        port = DEFAULT_PORT;
+    } else {
+        try {
+            port = stoi(argv[1]);
+        } catch (exception &e1) {
+            port = DEFAULT_PORT;
+        }
+    }
     ////algorithms
     ISearcher<vector<State<Position> *> *, Position> *bestfs = new BestFS<vector<State<Position> *> *, Position>();
     ISearcher<vector<State<Position> *> *, Position> *dfs = new DFS<vector<State<Position> *> *, Position>();
@@ -42,15 +45,11 @@ int main() {
     ISolver<ISearchable<Position> *, vector<State<Position> *> *> *solver4 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *> *, Position>(
             aStar);
     ////client handlers
-    MatrixHandler *matrixHandler1 = new MatrixHandler(solver1);
     MatrixHandler *matrixHandler4 = new MatrixHandler(solver4);
-    SerialServer *serialServer = new SerialServer();
-    /*serialServer->open(5600,matrixHandler1);
-    serialServer->run();*/
     ParallelServer *server = new ParallelServer(10);
-    server->open(5601, matrixHandler4);
+    server->open(port, matrixHandler4);
     thread threadServer(&ParallelServer::run, server);
-    sleep(5);
+    sleep(60);
     server->stop();
     threadServer.join();
     cout << "Server done" << endl;

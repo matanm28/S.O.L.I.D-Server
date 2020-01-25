@@ -44,14 +44,13 @@ public:
         this->cacheLock.lock();
         try {
             solutionStr = this->cache->get(searchable->toString());
-            this->writeSolution(solutionStr, outputStream);
             this->cacheLock.unlock();
+            this->writeSolution(solutionStr, outputStream);
         } catch (const char *exception) {
-            //todo check for possible exception here
             Solution solution = this->solver->solve(searchable);
             this->cache->insert(searchable->toString(), this->solutionToString(solution));
-            this->writeSolution(outputStream, solution);
             this->cacheLock.unlock();
+            this->writeSolution(outputStream, solution);
         }
 
     }

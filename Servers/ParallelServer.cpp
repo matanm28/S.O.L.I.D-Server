@@ -31,7 +31,7 @@ void ParallelServer::run() {
             solveThread->detach();
         } else {
             cerr << "queue full" << endl;
-            //sleep(2);
+            sleep(5);
         }
     }
 }

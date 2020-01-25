@@ -12,6 +12,9 @@ void SerialServer::run() {
     while (!this->isStopped()) {
         if (this->portsAvailable()) {
             Socket clientSocket = this->listenAndWait();
+            if (clientSocket == -1) {
+                continue;
+            }
             this->solveProblem(OUTPUT_FILE, INPUT_FILE, clientSocket);
             this->closeSocket(clientSocket);
         }
