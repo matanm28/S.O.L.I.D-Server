@@ -4,7 +4,7 @@ import argparse
 from threading import Thread, Event, Lock
 import time
 
-DEFAULT_FILE_NAME = 'Matrix3.txt'
+DEFAULT_FILE_NAME = 'TestMatrix/matrix4.txt'
 DEFAULT_TARGET_IP = 'localhost'
 DEFAULT_TARGET_PORT = 5600
 DEFAULT_MAX_BACKLOG_SIZE = 5
@@ -30,7 +30,6 @@ def send_and_receive():
     for line in lines:
         client.send(line.encode('ASCII'))
         logging.debug('Sent to server: %s', line)
-        time.sleep(DEFAULT_SLEEP_TIME)
 
     receive_message = client.recv(DEFAULT_BUFFER_SIZE).decode('ASCII')
     logging.debug('Receive from server: %s', receive_message)

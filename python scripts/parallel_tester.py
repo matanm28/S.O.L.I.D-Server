@@ -21,7 +21,7 @@ def connect_clients():
 
 
 def send_and_receive(client, i):
-    file_name = "Matrix" + str(i + 1) + ".txt"
+    file_name = "TestMatrix/matrix" + str(i + 1) + ".txt"
     with open(file_name) as f:
         lines = f.readlines()
     for line in lines:

@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
     ISolver<ISearchable<Position> *, vector<State<Position> *> *> *solver4 = new SearchSolver<ISearchable<Position> *, vector<State<Position> *> *, Position>(
             aStar);
     ////client handlers
-    MatrixHandler *matrixHandler4 = new MatrixHandler(solver4);
+    MatrixHandler *matrixHandler4 = new MatrixHandler(solver1);
     ParallelServer *server = new ParallelServer(10);
     server->open(port, matrixHandler4);
     thread threadServer(&ParallelServer::run, server);

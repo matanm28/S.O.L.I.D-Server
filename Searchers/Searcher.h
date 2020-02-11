@@ -58,7 +58,7 @@ protected:
     void updateOpenList(State<Var>* state) {
         priority_queue<State<Var>*, vector<State<Var>*>, MyComperator> temp;
         while (!this->openList.empty()) {
-            State<Var>* tempState = this->openList.top();
+            State<Var> *tempState = this->openList.top();
             this->openList.pop();
             if (*state == *tempState) {
                 temp.push(state);
@@ -69,11 +69,19 @@ protected:
         this->openList = temp;
     }
 
+    void emptyList() {
+        while (!this->openList.empty()) {
+            this->openList.pop();
+        }
+    }
+
 public:
     Searcher() {
         this->evaluatedNum = 0;
     }
-    virtual Solution search(ISearchable<Var>* iSearchable) = 0;
+
+    virtual Solution search(ISearchable<Var> *iSearchable) = 0;
+
 };
 
 

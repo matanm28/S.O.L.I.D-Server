@@ -30,6 +30,7 @@ public:
             //if n is goal - we reached the best path
             if (searchable->isGoalState(n)) {
                 vector<State<Var>*>* trace = this->backTrace(closed);
+                this->emptyList();
                 return trace;
             }
             vector<State<Var>*> succerssors = searchable->getAllPossibleStates(n);
@@ -42,7 +43,7 @@ public:
                     double potential_trial = s->getTrialCost();
                     //if this new path has better cost than previous one
                     //operator by cost
-                    if (potential_trial < curr_trial) {
+                    if (potential_trial <= curr_trial) {
                         //if not in  open - add it to open
                         if (!this->isInOpenList(s)) {
                             this->addToOpenList(s);

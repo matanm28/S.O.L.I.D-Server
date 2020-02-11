@@ -7,19 +7,26 @@
 
 #include "ISolver.h"
 #include "../Searchers/ISearcher.h"
+#include <mutex>
 
 template <class Problem, class Solution, class Var>
-class SearchSolver : public ISolver<Problem,Solution>{
+class SearchSolver : public ISolver<Problem, Solution> {
 private:
+    mutex locker;
+
 public:
-    ISearcher<Solution, Var>* searcher;
+    ISearcher<Solution, Var> *searcher;
+
     //Algorithm Searcher throw the constructor
-    SearchSolver(ISearcher<Solution, Var>* searcher) {
+    SearchSolver(ISearcher<Solution, Var> *searcher) {
         this->searcher = searcher;
     }
+
     //the searchable as parameter
     Solution solve(Problem problem) override {
+        this->locker.lock();
         Solution solution = this->searcher->search(problem);
+        this->locker.unlock();
         return solution;
     }
 };
